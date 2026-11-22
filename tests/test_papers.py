@@ -3,6 +3,7 @@
 import unittest
 
 from research_paper.compare import compare_briefs
+from research_paper.library import load_records, notes_markdown, record_from_brief, save_records
 from research_paper.read import join_glyphs
 from research_paper.samples import MORPH_NET, SYNC_FACE
 from research_paper.service import brief_from_text
@@ -109,6 +110,26 @@ However, reliable detection of highly occluded birds remains difficult.
         self.assertIn("UAVDT", brief.datasets)
         self.assertEqual(brief.metrics, [])
         self.assertNotIn("44.41", brief.limitation)
+
+    def test_library_keeps_each_paper_once(self):
+        folder = self._library_path()
+        first = record_from_brief(brief_from_text(SYNC_FACE))
+        second = record_from_brief(brief_from_text(MORPH_NET))
+        save_records([first], folder)
+        saved = save_records([first, second], folder)
+        self.assertEqual([item["title"] for item in saved], [first["title"], second["title"]])
+        self.assertEqual(len(load_records(folder)), 2)
+        notes = notes_markdown(saved)
+        self.assertIn("HDTF", notes)
+        self.assertIn("head turns", notes)
+        self.assertIn("| Paper | Data | Numbers |", notes)
+
+    def _library_path(self):
+        import tempfile
+        from pathlib import Path
+
+        folder = Path(tempfile.mkdtemp())
+        return folder / "papers.json"
 
 
 if __name__ == "__main__":

@@ -22,6 +22,7 @@ flowchart LR
 2. The splitter finds the abstract, method, experiments, and conclusion.
 3. The reader keeps the problem, the method, named datasets, reported numbers, and a limitation.
 4. A second paper produces the same card, plus the datasets and numbers they share.
+5. Save the reading. The library keeps every paper and writes notes you can paste.
 
 ## Run it
 
@@ -58,6 +59,7 @@ Put a Groq key in `GROQ_API_KEY`, turn on the checkbox, and read the paper again
 | `research_paper/sections.py` | Abstract, method, experiments, conclusion |
 | `research_paper/extract.py` | Problem, method, datasets, numbers, limitation |
 | `research_paper/compare.py` | What two papers share |
+| `research_paper/library.py` | Saved readings and pasteable notes |
 | `research_paper/llm.py` | Optional cleanup when a key is set |
 | `research_paper/samples.py` | Two practice papers |
 | `tests/` | Checks on those practice papers |
